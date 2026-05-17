@@ -8,7 +8,8 @@ import os
 st.set_page_config(page_title="Universal IFCT 2017 RAG", layout="wide")
 
 # 2. Secure API Validation
-api_key = st.secrets.get("GEMINI_API_KEY")
+
+api_key = os.environ.get("GEMINI_API_KEY")
 if not api_key:
     st.warning("⚠️ Please configure your GEMINI_API_KEY in Streamlit Secrets.")
     st.stop()
