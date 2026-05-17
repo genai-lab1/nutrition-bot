@@ -15,6 +15,7 @@ if not api_key:
 genai.configure(api_key=api_key)
 
 # 3. Hybrid ChromaDB Initialization
+# 3. Hybrid ChromaDB Initialization
 PERSIST_DIR = "./chroma_db_data"
 
 if os.path.exists(PERSIST_DIR):
@@ -24,12 +25,11 @@ if os.path.exists(PERSIST_DIR):
     db_ready = True
     using_prebuilt = True
 else:
-    # Standard Mode: Fallback to in-memory processing if folder isn't pushed yet
-    chroma_client = chromadb.Client()
+    # Standard Mode: Use EphemeralClient for safe, isolated in-memory processing
+    chroma_client = chromadb.EphemeralClient()
     collection = chroma_client.get_or_create_collection(name="ifct_2017_master_v5")
     db_ready = True
     using_prebuilt = False
-
 # 4. CSV INGESTION LAYER (Runs only if standard mode is active)
 @st.cache_resource
 def load_and_index_dataset():
